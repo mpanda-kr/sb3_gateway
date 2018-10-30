@@ -125,6 +125,7 @@ public class HomeController {
 	@ResponseBody
 	public List<EnrollBeacon> enroll_list(HttpServletRequest request, Model model) {
 
+		// git test 
 		//String center_code = "2109058_04";
 		// center_id = (String)request.getParameter("center_id");
 		String center_code = (String) request.getParameter("center_id");
