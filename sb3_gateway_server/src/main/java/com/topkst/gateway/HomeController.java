@@ -125,7 +125,6 @@ public class HomeController {
 	@ResponseBody
 	public List<EnrollBeacon> enroll_list(HttpServletRequest request, Model model) {
 
-		// git test 
 		//String center_code = "2109058_04";
 		// center_id = (String)request.getParameter("center_id");
 		String center_code = (String) request.getParameter("center_id");
@@ -161,6 +160,14 @@ public class HomeController {
 		return templateName; // For example
 	}
 
+	@RequestMapping(value = "/save")
+	public @ResponseBody String processSave(@RequestBody String json)
+			throws JsonParseException, JsonMappingException, IOException {
+		Map<String, Object> jsonToMap = new ObjectMapper().readValue(json, Map.class);
+		String templateName = (String) jsonToMap.get("templateName"); // here you get the parameters
+		return templateName; // For example
+	}
+	
 	// 게이트웨이 json 데이터 > 서버
 	@RequestMapping(value = "enrollbeacon_insert")
 	@ResponseBody
