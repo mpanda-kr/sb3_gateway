@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.topkst.gateway.mapper">
+
+	<select id="get_enrollList" parameterType="java.util.Map" resultType="com.topkst.gateway.dto.EnrollBeacon">
+		SELECT * FROM beacon where center_code = #{center_code};
+	</select>
+
+
+	<select id = "check_log" parameterType="java.util.Map" resultType="com.topkst.gateway.dto.RidingGetBeacon">
+		SELECT * FROM getoff_riding_glog where log_id = #{_id};
+	</select>
+	
+
+	<insert id = "riding_getoff_insert" parameterType = "com.topkst.gateway.dto.RidingBeacon">
+		INSERT INTO getoff_riding_glog(   log_id  ,log_beacon_id  ,log_createtime  ,log_data_type  ,log_equiment_id  ,log_receive) VALUES (
+   #{_id}  , #{beacon_id}  ,#{createtime}  ,#{data_type}  ,#{equiment_id} ,#{receive}   );
+	</insert>
+
+	<select id="get_par_token" parameterType="java.util.Map" resultType="com.topkst.gateway.dto.BeaconToken">
+		 select		ifnull(if(parent.fcm_token='','-',parent.fcm_token),'-') as fcm_token
+		from beacon		join kid		on beacon.kid_system_code = kid.kid_system_code
+		join parent_and_kid		on kid.kid_system_code =		parent_and_kid.kid_system_code
+		join parent		on parent.par_id =		parent_and_kid.par_id
+		where beacon_id = #{beacon_id};
+	</select>
+
+	<insert id="attendBeacon_isert" parameterType="com.topkst.gateway.dto.RidingBeacon">
+		INSERT INTO attendance_onoff_log(   log_id  ,log_beacon_id  ,log_createtime  ,log_data_type  ,log_equiment_id  ,log_receive) VALUES (
+   #{_id}  , #{beacon_id}  ,#{createtime}  ,#{data_type}  ,#{equiment_id} ,#{receive}   );
+	</insert>
+	
+	
+	<select id="get_attend_Receive" parameterType="java.util.Map"
+		resultType="com.topkst.gateway.dto.RidingGetBeacon">
+		SELECT * FROM attendance_onoff_log where log_id = #{_id};
+
+	</select>
+
+
+</mapper>
